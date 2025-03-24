@@ -53,7 +53,7 @@ def get_session_data(session_id: str):
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
         host=os.getenv("DB_HOST"),
-        port=os.getenv("DB_PORT")
+        port="5432"
     )
     query = "SELECT * FROM analytics WHERE session_id = %s ORDER BY timestamp"
     df = pd.read_sql(query, conn, params=(session_id,))
