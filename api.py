@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import psycopg2
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+import os  # Add this import
 
 app = FastAPI()
 
@@ -48,11 +49,11 @@ class EventLog(BaseModel):
 # Fetch session data from DB
 def get_session_data(session_id: str):
     conn = psycopg2.connect(
-        dbname="your_db",  # Replace or use env var
-        user="your_user",
-        password="your_password",
-        host="your_host",
-        port="your_port"
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT")
     )
     query = "SELECT * FROM analytics WHERE session_id = %s ORDER BY timestamp"
     df = pd.read_sql(query, conn, params=(session_id,))
